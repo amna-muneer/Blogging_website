@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <m eta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title> Anime Chronicles</title>
+    <!-- ico-font-->
+    <link rel="stylesheet" type="text/css" href="../assets/css/vendors/icofont.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+   <!-- Navbar -->
+ <nav class="navbar navbar-expand-lg p-3 bg-success">
+    <div class="container">
+      <h3 class="text-white">AnimeChronicles</h3>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span> Menu
+      </button>
+  
+      <div class="collapse navbar-collapse justify-content-end" id="collapsibleNavbar">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active" style="font-size: 20px;"><a href="index.html" class="nav-link">Home</a></li>
+          <li class="nav-item" style="font-size: 20px;"><a href="articles.html" class="nav-link">Articles/Blogs</a></li>
+          <li class="nav-item" style="font-size: 20px;"><a href="suggestions.html" class="nav-link" target="_blank">Suggestions</a></li>
+          <li class="nav-item" style="font-size: 20px;"><a href="community.html" class="nav-link" target="_blank">Community</a></li>
+          
+          <!-- Profile Dropdown -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Profile
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+              <li>
+                <div class="profile-card dropdown-item bg-warning">
+                  <img src="./profile.png" alt="Profile Picture">
+                  <div class="mt-2">
+                    <h6 class="mb-0">John Doe</h6>
+                    <small>john.doe@example.com</small>
+                  </div>
+                </div>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">Logout</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- End of Navbar -->
+  <!-- End Navbar -->
+
+  <div class="container mt-4">
+    <h2>Action Animes</h2>
+    <div class="btn-group filter-btn" role="group" aria-label="Filter Animes">
+      <button type="button" class="btn btn-primary" onclick="filterAnimes('all')">All</button>
+      <button type="button" class="btn btn-secondary" onclick="filterAnimes('2024')">2024</button>
+      <button type="button" class="btn btn-secondary" onclick="filterAnimes('2023')">2023</button>
+      <button type="button" class="btn btn-secondary" onclick="filterAnimes('2022')">2022</button>
+    </div>
+
+    <div id="animeList" class="row">
+      <!-- Anime Cards will be dynamically inserted here -->
+    </div>
+  </div>
+
+  <!-- Anime Details Modal -->
+  <div id="animeInfo" class="anime-info">
+    <span class="close float-end" onclick="closeInfo()">&times;</span>
+    <h4 id="animeTitle"></h4>
+    <img id="animeImage" src="" alt="Anime Poster" class="img-fluid">
+    <p id="animeDescription"></p>
+  </div>
+  <!-- End Anime Details Modal -->
+
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+  <script>
+    const animes = [
+      { title: 'Anime 2024-1', year: '2024', description: 'Description for Anime 2024-1', image: 'https://via.placeholder.com/300', info: 'Detailed information about Anime 2024-1.' },
+      { title: 'Anime 2024-2', year: '2024', description: 'Description for Anime 2024-2', image: 'https://via.placeholder.com/300', info: 'Detailed information about Anime 2024-2.' },
+      { title: 'Anime 2023-1', year: '2023', description: 'Description for Anime 2023-1', image: 'https://via.placeholder.com/300', info: 'Detailed information about Anime 2023-1.' },
+      { title: 'Anime 2023-2', year: '2023', description: 'Description for Anime 2023-2', image: 'https://via.placeholder.com/300', info: 'Detailed information about Anime 2023-2.' },
+      { title: 'Anime 2022-1', year: '2022', description: 'Description for Anime 2022-1', image: 'https://via.placeholder.com/300', info: 'Detailed information about Anime 2022-1.' },
+      { title: 'Anime 2022-2', year: '2022', description: 'Description for Anime 2022-2', image: 'https://via.placeholder.com/300', info: 'Detailed information about Anime 2022-2.' }
+    ];
+
+    function displayAnimes(animeList) {
+      const container = document.getElementById('animeList');
+      container.innerHTML = '';
+      animeList.forEach(anime => {
+        const card = document.createElement('div');
+        card.className = 'col-md-4';
+        card.innerHTML = `
+          <div class="card anime-card" onclick="showInfo('${anime.title}')">
+            <img src="${anime.image}" class="card-img-top" alt="${anime.title}">
+            <div class="card-body">
+              <h5 class="card-title">${anime.title}</h5>
+              <p class="card-text">${anime.description}</p>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function filterAnimes(year) {
+      if (year === 'all') {
+        displayAnimes(animes);
+      } else {
+        displayAnimes(animes.filter(anime => anime.year === year));
+      }
+    }
+
+    function showInfo(title) {
+      const anime = animes.find(anime => anime.title === title);
+      if (anime) {
+        document.getElementById('animeTitle').innerText = anime.title;
+        document.getElementById('animeImage').src = anime.image;
+        document.getElementById('animeDescription').innerText = anime.info;
+        document.getElementById('animeInfo').classList.add('show');
+      }
+    }
+
+    function closeInfo() {
+      document.getElementById('animeInfo').classList.remove('show');
+    }
+
+    // Initial load
+    filterAnimes('all');
+  </script>
+</body>
+</html>
